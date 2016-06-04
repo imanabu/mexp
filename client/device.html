@@ -6,14 +6,24 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="/bower_components/select2/dist/css/select2.css">
+    <script>
+        var deviceNames = [
+            "Expensive Stent", "Medium Stent", "Cheap Stent"
+        ];
+    </script>
     </head>
     <body>
     <h2>Device Demo</h2>
+     <div id="app"></div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/bower_components/select2/dist/js/select2.js"></script>
     <script src="/bower_components/mithril/mithril.js"></script>
+    
+    <script src="/app/models/device.js"></script>
+    <script src="/app/views/device-view.js"></script>
+    <script src="/app/ctrls/main.js"></script>
     <script src="/app/app.js"></script>
     </body>
 </html>
