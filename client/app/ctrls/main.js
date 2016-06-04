@@ -4,11 +4,12 @@ var app = app || {};
 
 app.controller = function() {
     // Device collection
-	this.list = app.storage.get();
-    this.devNames = deviceNames.map(function(item, index) { return new app.DevName(item, index)});
-   
+    var ctrl = this;
+	ctrl.list = app.storage.get();
+    ctrl.devNames = deviceNames.map(function(item, index) { return new app.DevName(item, index)});
+    console.log(ctrl.devNames[0].name());
 	// Update with props
-	this.list = this.list.map(function (item) {
+	ctrl.list = this.list.map(function (item) {
 		return new app.Device(item);
 	});
 }
@@ -21,16 +22,16 @@ var Select2 = {
     // Be sure to scroll down to the bottom of the page to see the acual coding example including the use if id and name
     // 
     view: function(ctrl, attrs) {
-        var selectedId = attrs.value().id;
+        var selectedId = attrs.value;
         //Create a Select2 progrssively enhanced SELECT element
         return m("select", {config: Select2.config(attrs)}, [
             attrs.data.map(function(item) {
-                var args = {value: item.id};
+                var args = {value: item.id()};
                 //    Set selected option
                 if(item.id == selectedId) {
                     args.selected = "selected";
                 }
-                return m("option", args, item.name);
+                return m("option", args, item.name());
             })
         ]);
     },
@@ -54,7 +55,7 @@ var Select2 = {
                             m.startComputation();
                             //Set the value to the selected option
                             ctrl.data.map(function(d){
-                                if(d.id == id) {
+                                if(d.id() == id) {
                                     ctrl.value(d);
                                 }
                             });
@@ -65,7 +66,7 @@ var Select2 = {
                             m.endComputation();
                         });
                 }
-                el.val(ctrl.value().id).trigger("change");
+                el.val(ctrl.value.id()).trigger("change");
             } else {
                 console.warn('ERROR: You need jquery and Select2 in the page');    
             }
