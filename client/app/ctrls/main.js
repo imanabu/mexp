@@ -20,7 +20,8 @@ var Select2 = {
     // Usage: see http://mithril.js.org/integration.html but in general
     // insert as m.component(Select2 { data: listOfSelections[], value: currentlySelected, onchange: chageCallBack(id)})
     // Be sure to scroll down to the bottom of the page to see the acual coding example including the use if id and name
-    // 
+    // This is modifed so that the data source uses the mithril getter and setter factories and not
+    // plain Json structure.
     view: function(ctrl, attrs) {
         var selectedId = attrs.value;
         //Create a Select2 progrssively enhanced SELECT element
