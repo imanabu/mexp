@@ -97,7 +97,7 @@ var Select2Multi = {
             attrs.data.map(function(item, index) {
                 var args = {value: item, selected: "selected"};
                 //    Set selected option
-                if(selectedIds.includes(item)) {
+                if(_.contains(selectedIds, item)) {
                     args.selected = "selected";
                 }
                 else
