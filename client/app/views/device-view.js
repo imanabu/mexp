@@ -6,14 +6,15 @@
 var app = app || {};
 
 var myToDo = [
-    "Deleting each device",
-    "ICD pulldown needs to be tied to each row independently",
-    "Associated Lesions add/remove functionality"
+    "New: You can add device and Associated Lesions pulldown will reflect the number of items",
+    "Net Yet! Deleting each device",
+    "Net Yet! ICD pulldown needs to be tied to each row independently",
+    "Net Yet! Associated Lesions add/remove functionality"
 ];
 
 app.view = function (ctrl) {
     return m("header#header", [
-        m("h3", "List of Items Not Yet Implemented"),
+        m("h3", "List of Progress"),
         m("ul", [
             myToDo.map(function(item) {
                 return m("li", item) })   
@@ -41,7 +42,7 @@ app.view = function (ctrl) {
                         ]),
                         m("td", [
                             m.component(Select2Multi, {
-                                data: [1,2,3,4], value: m.prop([2,4]), onchange: function () { }
+                                data: ctrl.deviceIds(), value: m.prop([2,4]), onchange: ctrl.lesionsChanged.bind(ctrl)
                             })
                         ]),
                         m("td", [ m("input", {class:"text"})]),

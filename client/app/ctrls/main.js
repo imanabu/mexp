@@ -25,6 +25,22 @@ app.controller = function() {
         var len = that.list.length;
         that.listCount(len);
     };
+    
+    ctrl.deviceIds = function()
+    {
+        var m = ctrl.list.map(
+            function(item) {
+                return item.id;
+            }
+        );
+        
+        return m;
+    }
+    
+    ctrl.lesionsChanged = function(arg) {
+        var ctrl = this;
+        console.log(arg);
+    }
 };
 
 var Select2 = {

@@ -10,6 +10,14 @@
             "webRoot": "${workspaceRoot}"
         },
         {
+            "name": "Device.html EDGE",
+            "type": "edge",
+            "request": "launch",
+            "url": "http://localhost:3000/device.html",
+            "sourceMaps": false,
+            "webRoot": "${workspaceRoot}/client"
+        },
+        {
             "name": "Device.html",
             "type": "chrome",
             "request": "launch",
@@ -18,8 +26,8 @@
             "webRoot": "${workspaceRoot}/client"
         },
         {
-            "name": "Device.html Attach Chrome",
-            "type": "chrome",
+            "name": "Device.html Attach Edge",
+            "type": "edge",
             "request": "attach",
             "port": 9222,
             "sourceMaps": false,
