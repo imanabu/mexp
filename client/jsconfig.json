@@ -2,11 +2,6 @@
     "compilerOptions": {
         "target": "ES6"
     },
-    
-   "files" :[
-       "app.js",
-       "app/ctrls/main.js",
-       "app/models/device.js",
-       "app/views/device-view.js"
-   ]
+    "exclude" : ["bower_components"]
 }
+
