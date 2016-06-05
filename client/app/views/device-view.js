@@ -24,7 +24,11 @@ app.view = function (ctrl) {
                                 data: ctrl.approvedDevices, value: ctrl.selectedDev, onchange: function () { }
                             })
                         ]),
-                        m("td", [ m("input", {class:"text"})]),
+                        m("td", [
+                            m.component(Select2Multi, {
+                                data: [1,2,3,4], value: m.prop([2,4]), onchange: function () { }
+                            })
+                        ]),
                         m("td", [ m("input", {class:"text"})]),
                         m("td", [ m("input", {class:"text"})])
                     ])

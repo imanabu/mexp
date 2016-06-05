@@ -36,6 +36,7 @@ var Select2 = {
         var selectedId = attrs.value;
         //Create a Select2 progrssively enhanced SELECT element
         return m("select", {config: Select2.config(attrs), style:"width:320px"}, [
+
             attrs.data.map(function(item, index) {
                 var args = {value: index};
                 //    Set selected option
@@ -83,4 +84,66 @@ var Select2 = {
             }
         };
     }
-};
+}; // end Select2
+
+var Select2Multi = {
+    //  Returns a multi-select select2 box
+    //  attrs.value must be passed as number[] (should really be int[]) containing the
+    //  selection.
+    view: function(ctrl, attrs) {
+        var selectedIds = attrs.value();
+        //Create a Select2 progrssively enhanced SELECT element
+        return m("select", {config: Select2Multi.config(attrs), style:"width:200px", multiple:"multiple"}, [
+            attrs.data.map(function(item, index) {
+                var args = {value: item, selected: "selected"};
+                //    Set selected option
+                if(selectedIds.includes(item)) {
+                    args.selected = "selected";
+                }
+                else
+                {
+                    args.selected = "";
+                }
+                return m("option", args, item);
+            })
+        ]);
+    },
+    
+    /**
+    Select2 config factory. The params in this doc refer to properties of the `ctrl` argument
+    @param {Object} data - the data with which to populate the <option> list
+    @param {prop} value - the prop of the items in `data` that we want to select, type number[]
+    @param {function(Object id)} onchange - the event handler to call when the selection changes.
+        `id` is the the same as `value`
+    */
+    //    Note: The config is never run server side.
+    config: function(ctrl) {
+        return function(element, isInitialized) {
+            if(typeof jQuery !== 'undefined' && typeof jQuery.fn.select2 !== 'undefined') {
+                var el = $(element);
+                if (!isInitialized) {
+                    el.select2()
+                        .on("change", function(e) {
+                            var id = el.select2("val");
+                            m.startComputation();
+                            //Set the value to the selected option
+                            var selected = [];
+                            ctrl.data.map(function(d, index){
+                                if(d == id) {
+                                    selected.push(id);
+                                }
+                            });
+                            ctrl.value(selected);
+                            if (typeof ctrl.onchange == "function"){
+                                ctrl.onchange(el.select2("val"));
+                            }
+                            m.endComputation();
+                        });
+                }
+                el.val(ctrl.value()).trigger("change");
+            } else {
+                console.warn('ERROR: You need jquery and Select2 in the page');    
+            }
+        };
+    }
+}; // end Select2
