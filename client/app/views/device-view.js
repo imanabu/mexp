@@ -7,6 +7,7 @@ var app = app || {};
 
 var myToDo = [
     "New: You can add device and Associated Lesions pulldown will reflect the number of items",
+    "Noet Yet: Working on updates from Pulldowns, lesions are currently selected to 2 and 4 as you add devices, 2 and 4 will show up as selections. Please try!", 
     "Net Yet! Deleting each device",
     "Net Yet! ICD pulldown needs to be tied to each row independently",
     "Net Yet! Associated Lesions add/remove functionality"
