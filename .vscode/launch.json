@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch index.html with sourcemaps",
+            "type": "chrome",
+            "request": "launch",
+            "file": "${workspaceRoot}/index.html",
+            "sourceMaps": true,
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "name": "Device.html",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000/device.html",
+            "sourceMaps": false,
+            "webRoot": "${workspaceRoot}/client"
+        },
+        {
+            "name": "Device.html Attach Chrome",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "sourceMaps": false,
+            "webRoot": "${workspaceRoot}/client"
+        }
+    ]
+}

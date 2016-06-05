@@ -6,14 +6,25 @@ app.controller = function() {
     // Device collection
     var ctrl = this;
 	ctrl.list = app.storage.get();
+    ctrl.listCount = m.prop(0);
     ctrl.devNames = deviceNames.map(function(item, index) { return new app.DevName(item, index)});
     console.log(ctrl.devNames[0].name());
+     
 	// Update with props
-	ctrl.list = this.list.map(function (item) {
+	ctrl.list = ctrl.list.map(function (item) {
 		return new app.Device(item);
 	});
+    
+    ctrl.selectedDev = m.prop(ctrl.devNames[0]);
+    
+    ctrl.addNew = function addNew () {
+        var that = this;
+        var nd = app.NewDevice();
+        that.list.push(nd);
+        var len = that.list.length;
+        that.listCount(len);
+    }
 }
-
 
 var Select2 = {
     //    Returns a select box
@@ -67,7 +78,7 @@ var Select2 = {
                             m.endComputation();
                         });
                 }
-                el.val(ctrl.value.id()).trigger("change");
+                el.val(ctrl.value).trigger("change");
             } else {
                 console.warn('ERROR: You need jquery and Select2 in the page');    
             }

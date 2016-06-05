@@ -30,6 +30,15 @@ app.Device = function (data) {
 	this.id = uniqueId();
 };
 
+app.NewDevice = function() {
+	return new app.Device( {
+		name: "",
+		legions: [],
+		diameter: 0,
+		length: 0
+	});
+}
+
 app.DevName = function(name, id) {
     this.id = m.prop(id);
     this.name = m.prop(name)
