@@ -10,8 +10,8 @@ app.view = function (ctrl) {
             m("thead", { class: "thead-inverse" }, [
                 m("tr", [
                     m("th", "#"),
-                    m("th", "Device"),
-                    m("th", "Lesions"),
+                    m("th", "Intracoronary Device(s) Used"),
+                    m("th", "Associated Lesion(s)"),
                     m("th", "Diameter"),
                     m("th", "Length")
                 ])]),
@@ -19,7 +19,7 @@ app.view = function (ctrl) {
                 ctrl.list.map(function (item) {
                     return m("tr", [
                         m("td", [m("button", "x " + item.id)]),
-                        m("td", {style: "width:120px"}, [
+                        m("td", [
                             m.component(Select2, {
                                 data: ctrl.approvedDevices, value: ctrl.selectedDev, onchange: function () { }
                             })
