@@ -24,9 +24,9 @@ app.view = function (ctrl) {
                                 data: ctrl.approvedDevices, value: ctrl.selectedDev, onchange: function () { }
                             })
                         ]),
-                        m("td", "L"),
-                        m("td", "1.0"),
-                        m("td", "1.5")
+                        m("td", [ m("input", {class:"text"})]),
+                        m("td", [ m("input", {class:"text"})]),
+                        m("td", [ m("input", {class:"text"})])
                     ])
                 })
             ]),
