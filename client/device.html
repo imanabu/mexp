@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>CatPCI Device UI Demonstration</title>
+
+<head>
+    <title>CatPCI Device UI Demonstration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/bower_components/select2/dist/css/select2.css">
@@ -10,18 +11,26 @@
             "Expensive Stent", "Medium Stent", "Cheap Stent"
         ];
     </script>
-    </head>
-    <body>
-     <div id="devapp"></div>
+</head>
+
+<body>
+    <h2>What is not Working, Next To Do</h2>
+    <ul>
+        <li>Cannot delete yet</li>
+        <li>Device pull down is right now a singleton. The width will also be adjusted next. </li>
+        <li>Lesions pull down to be added</li>
+    </ul>
+    <div id="devapp"></div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/bower_components/select2/dist/js/select2.js"></script>
     <script src="/bower_components/mithril/mithril.js"></script>
-    
+
     <script src="/app/models/device.js"></script>
     <script src="/app/views/device-view.js"></script>
     <script src="/app/ctrls/main.js"></script>
     <script src="/app/app.js"></script>
-    </body>
+</body>
+
 </html>
