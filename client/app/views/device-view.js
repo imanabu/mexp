@@ -1,4 +1,8 @@
 'use strict';
+/*global m, Select2, Select2Multi*/
+/*global approvedDevices*/
+/*global $, jQuery, _, localStorage*/
+
 var app = app || {};
 
 var myToDo = [

@@ -1,5 +1,7 @@
-console.log("main loaded");
-
+'use strict';
+/*global m*/
+/*global approvedDevices*/
+/*global $, jQuery, _*/
 var app = app || {};
 
 app.controller = function() {
@@ -22,8 +24,8 @@ app.controller = function() {
         that.list.push(nd);
         var len = that.list.length;
         that.listCount(len);
-    }
-}
+    };
+};
 
 var Select2 = {
     //    Returns a select box
