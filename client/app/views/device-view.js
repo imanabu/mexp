@@ -1,8 +1,19 @@
 'use strict';
 var app = app || {};
 
+var myToDo = [
+    "Deleting each device",
+    "ICD pulldown needs to be tied to each row independently",
+    "Associated Lesions add/remove functionality"
+];
+
 app.view = function (ctrl) {
     return m("header#header", [
+        m("h3", "List of Items Not Yet Implemented"),
+        m("ul", [
+            myToDo.map(function(item) {
+                return m("li", item) })   
+        ]),
         m("h1", "Devices")
     ],
         m("p", " "),
