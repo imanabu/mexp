@@ -35,7 +35,7 @@ var Select2 = {
     view: function(ctrl, attrs) {
         var selectedId = attrs.value;
         //Create a Select2 progrssively enhanced SELECT element
-        return m("select", {config: Select2.config(attrs), style:"width:180px"}, [
+        return m("select", {config: Select2.config(attrs), style:"width:320px"}, [
             attrs.data.map(function(item, index) {
                 var args = {value: index};
                 //    Set selected option
