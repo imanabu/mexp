@@ -54,8 +54,8 @@ app.view = function (ctrl) {
                                 id: item.id, data: ctrl.lesions(), value: item.lesions, onchange: ctrl.lesionsChanged.bind(ctrl)
                             })
                         ]),
-                        m("td", [m("input", { class: "text" })]),
-                        m("td", [m("input", { class: "text" })])
+                        m("td", [m("input", { class: "text", onchange: m.withAttr("value", item.diameter), value: item.diameter()})]),
+                        m("td", [m("input", { class: "text", onchange: m.withAttr("value", item.length), value: item.length()})])
                     ])
                 })
             ]),
