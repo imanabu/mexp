@@ -12,11 +12,12 @@ var myToDo = [
     "Note this list itself is written in Mithril!"
 ];
 
-app.dump = function(item) {
+app.dump = function (item) {
     return m("li",
         item.id + ", " + item.name() + ", [" + item.lesions() + "], " + item.diameter() + ", " + item.length()
     )
-;}
+        ;
+}
 
 app.view = function (ctrl) {
     return m("header#header", [
@@ -60,10 +61,10 @@ app.view = function (ctrl) {
             ]),
             m("button#add", { onclick: ctrl.addNew.bind(ctrl) }, "+"),
             m(".well", [
-            m("h2", "Data Dump"),
-            m("p", "Total devices: ", ctrl.listCount()),
-            m("ul", [ ctrl.list.map(app.dump)]
-            )]) // end ul
+                m("h2", "Data Dump"),
+                m("p", "Total devices: ", ctrl.listCount()),
+                m("ul", [ctrl.list.map(app.dump)]
+                )]) // end ul
         ])
     ); // top
 }
