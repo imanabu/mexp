@@ -26,7 +26,11 @@ app.view = function (ctrl) {
                 return m("li", item)
             })
         ]),
-        m("h1", "Devices")
+        m("h1", "Devices"),
+        m("h2", "Lesions Testing List"),
+        m("p", "Type in Lesion IDs separated by comma, it will renumber them once you make the change."),
+        m("input", { type: "text", onchange: {} }),
+        m("span", " " + ctrl.lesionStatus())
     ],
         m("p", " "),
         m("table", { class: "table table-striped" }, [
@@ -41,7 +45,16 @@ app.view = function (ctrl) {
             m("tbody", [
                 ctrl.list.map(function (item) {
                     return m("tr", [
-                        m("td", [m("button", { onclick: ctrl.Delete.bind(ctrl,item.id) }, "x " + item.id())]),
+                        m("td", [
+                            m("span", {
+                                onclick: ctrl.Delete.bind(ctrl, item.id),
+                                class: "glyphicon glyphicon-remove-circle", "aria-hidden": "true",
+                                style: "color:red"
+                            }
+                            ),
+                            m.trust("&nbsp;"),
+                            m("span", item.id())
+                        ]),
                         m("td", [
                             m.component(Select2, {
                                 id: item.id(),
@@ -53,12 +66,19 @@ app.view = function (ctrl) {
                                 id: item.id(), data: ctrl.lesions(), value: item.lesions, onchange: ctrl.lesionsChanged.bind(ctrl)
                             })
                         ]),
-                        m("td", [m("input", { class: "text", onchange: m.withAttr("value", item.diameter), value: item.diameter()})]),
-                        m("td", [m("input", { class: "text", onchange: m.withAttr("value", item.length), value: item.length()})])
+                        m("td", [m("input", { class: "text", onchange: m.withAttr("value", item.diameter), value: item.diameter() })]),
+                        m("td", [m("input", { class: "text", onchange: m.withAttr("value", item.length), value: item.length() })])
                     ])
                 })
             ]),
-            m("button#add", { onclick: ctrl.addNew.bind(ctrl) }, "+"),
+            m("span", {
+                onclick: ctrl.addNew.bind(ctrl),
+                class: "glyphicon glyphicon-plus", "aria-hidden": "true",
+                style: "color:gray"
+            }, " Add Devices"
+            ),
+            m("p"),
+            m("hr"),
             m(".well", [
                 m("h2", "Data Dump"),
                 m("p", "Total devices: ", ctrl.listCount()),

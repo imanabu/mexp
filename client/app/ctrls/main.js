@@ -37,8 +37,10 @@ app.controller = function () {
     }
     
     // TODO: This comes from the actual lesions list. And if this changes we must reflect those
-    ctrl.lesions = function () {
-        return [1, 2, 3, 4, 5];
+    ctrl.lesions = m.prop([1, 2, 3, 4, 5]);
+    ctrl.lesionStatus = m.prop("Initialized");
+    ctrl.lesionUpdate = function(x) {
+        console.log(x);
     }
 
     ctrl.deviceChanged = function (arg) {
