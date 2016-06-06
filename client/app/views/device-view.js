@@ -6,7 +6,8 @@
 var app = app || {};
 
 var myToDo = [
-    "New: List pretty much works.",
+    "New: Check the new Deletion Style",
+    "New: Device list updated, searchable by the ID",
     "Not Yet: Lesions deletion handling and warking",
     "Note this list itself is written in Mithril!"
 ];
@@ -26,14 +27,10 @@ app.view = function (ctrl) {
                 return m("li", item)
             })
         ]),
-        m("h1", "Devices"),
-        m("h2", "Lesions Testing List"),
-        m("p", "Type in Lesion IDs separated by comma, it will renumber them once you make the change."),
-        m("input", { type: "text", onchange: {} }),
-        m("span", " " + ctrl.lesionStatus())
+        m("h1", "Devices")
     ],
         m("p", " "),
-        m("table", { class: "table table-striped" }, [
+        m("table", { class: "table table-striped well" }, [
             m("thead", { class: "thead-inverse" }, [
                 m("tr", [
                     m("th", "#"),
@@ -70,20 +67,25 @@ app.view = function (ctrl) {
                         m("td", [m("input", { class: "text", onchange: m.withAttr("value", item.length), value: item.length() })])
                     ])
                 })
-            ]),
-            m("span", {
-                onclick: ctrl.addNew.bind(ctrl),
-                class: "glyphicon glyphicon-plus", "aria-hidden": "true",
-                style: "color:gray"
-            }, " Add Devices"
-            ),
-            m("p"),
-            m("hr"),
-            m(".well", [
-                m("h2", "Data Dump"),
-                m("p", "Total devices: ", ctrl.listCount()),
-                m("ul", [ctrl.list.map(app.dump)]
-                )]) // end ul
-        ])
+            ])
+        ]),
+        m("span", {
+            onclick: ctrl.addNew.bind(ctrl),
+            class: "glyphicon glyphicon-plus", "aria-hidden": "true",
+            style: "color:gray"
+        }, " Add Devices"
+        ),
+        m("p"),
+        m("hr"),
+        m("h2", "Lesions Testing List"),
+        m("p", "Type in Lesion IDs separated by comma, it will renumber them once you make the change."),
+        m("input", { type: "text", onchange: {} }),
+        m("span", " " + ctrl.lesionStatus()),
+        m("hr"),
+        m(".well", { class: "col-md-8" }, [
+            m("h2", "Internal Data Dump"),
+            m("p", "Total devices: ", ctrl.listCount()),
+            m("ul", [ctrl.list.map(app.dump)]
+            )]) // end ul
     ); // top
 }
