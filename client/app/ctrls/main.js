@@ -13,13 +13,14 @@ app.controller = function () {
 
     // Update with props
     ctrl.list = ctrl.list.map(function (item) {
+        item.id = ctrl.list.length() + 1;
         return new app.Device(item);
     });
     ctrl.selectedDev = m.prop(0);
 
     ctrl.addNew = function addNew() {
         var that = this;
-        var nd = app.NewDevice();
+        var nd = app.NewDevice(that.list.length + 1);
         that.list.push(nd);
         var len = that.list.length;
         that.listCount(len);
@@ -46,7 +47,7 @@ app.controller = function () {
         if (sel) {
             ctrl.list.map(
                 function (item) {
-                    if (item.id === id) {
+                    if (item.id() === id) {
                         item.name(sel);
                     }
                 }
@@ -59,12 +60,28 @@ app.controller = function () {
         if (sel) {
             ctrl.list.map(
                 function (item) {
-                    if (item.id === arg.id) {
+                    if (item.id() === arg.id) {
                         item.lesions(sel);
                     }
                 }
             );
         }
+    }
+    
+    ctrl.Delete = function(arg) {
+        var id = arg();
+        var newId = 0;
+        var list2 = [];
+
+        ctrl.list.forEach(function(x) {
+            if (x.id() !== id) {
+                x.id(++newId);
+                list2.push(x)
+            }
+        });
+        
+        ctrl.list = list2;
+        console.log(list2);
     }
 };
 

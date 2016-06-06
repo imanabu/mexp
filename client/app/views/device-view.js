@@ -6,15 +6,14 @@
 var app = app || {};
 
 var myToDo = [
-    "New: lesions is now hooked up properly in each item. Try it. You can add remove items.",
-    "New: device pulldown should nor behave properly",
-    "Net Yet! device deletion and reordering",
+    "New: List pretty much works.",
+    "Not Yet: Lesions deletion handling and warking",
     "Note this list itself is written in Mithril!"
 ];
 
 app.dump = function (item) {
     return m("li",
-        item.id + ", " + item.name() + ", [" + item.lesions() + "], " + item.diameter() + ", " + item.length()
+        item.id() + ", " + item.name() + ", [" + item.lesions() + "], " + item.diameter() + ", " + item.length()
     )
         ;
 }
@@ -42,16 +41,16 @@ app.view = function (ctrl) {
             m("tbody", [
                 ctrl.list.map(function (item) {
                     return m("tr", [
-                        m("td", [m("button", "x " + item.id)]),
+                        m("td", [m("button", { onclick: ctrl.Delete.bind(ctrl,item.id) }, "x " + item.id())]),
                         m("td", [
                             m.component(Select2, {
-                                id: item.id,
+                                id: item.id(),
                                 data: ctrl.approvedDevices, value: item.name(), onchange: ctrl.deviceChanged.bind(ctrl)
                             })
                         ]),
                         m("td", [
                             m.component(Select2Multi, {
-                                id: item.id, data: ctrl.lesions(), value: item.lesions, onchange: ctrl.lesionsChanged.bind(ctrl)
+                                id: item.id(), data: ctrl.lesions(), value: item.lesions, onchange: ctrl.lesionsChanged.bind(ctrl)
                             })
                         ]),
                         m("td", [m("input", { class: "text", onchange: m.withAttr("value", item.diameter), value: item.diameter()})]),

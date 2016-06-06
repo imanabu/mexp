@@ -14,24 +14,18 @@ var app = app || {};
 	};
 })();
 
-var uniqueId = (function () {
-	var count = 0;
-	return function () {
-		return ++count;
-	};
-} ());
-
 // Device Model
 app.Device = function (data) {
 	this.name = m.prop(data.name);
 	this.lesions = m.prop(data.lesions || []);
 	this.diameter = m.prop(data.diameter || 0);
     this.length = m.prop(data.length || 0);
-	this.id = uniqueId();
+	this.id = m.prop(data.id);
 };
 
-app.NewDevice = function () {
+app.NewDevice = function (newId) {
 	return new app.Device({
+		id: newId,
 		name: "",
 		lesions: [],
 		diameter: 0,
