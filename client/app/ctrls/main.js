@@ -15,7 +15,6 @@ app.controller = function () {
     ctrl.list = ctrl.list.map(function (item) {
         return new app.Device(item);
     });
-
     ctrl.selectedDev = m.prop(0);
 
     ctrl.addNew = function addNew() {
@@ -35,15 +34,33 @@ app.controller = function () {
 
         return m;
     }
+    
+    // TODO: This comes from the actual lesions list. And if this changes we must reflect those
+    ctrl.lesions = function () {
+        return [1, 2, 3, 4, 5];
+    }
 
-    ctrl.lesionsChanged = function (arg) {
+    ctrl.deviceChanged = function (arg) {
         var id = arg.id;
         var sel = arg.selected;
         if (sel) {
             ctrl.list.map(
-                function(item) {
+                function (item) {
                     if (item.id === id) {
-                        item.legions(sel);
+                        item.name(sel);
+                    }
+                }
+            );
+        }
+    }
+
+    ctrl.lesionsChanged = function (arg) {
+        var sel = arg.selected;
+        if (sel) {
+            ctrl.list.map(
+                function (item) {
+                    if (item.id === arg.id) {
+                        item.lesions(sel);
                     }
                 }
             );
@@ -63,8 +80,8 @@ var Select2 = {
         //Create a Select2 progrssively enhanced SELECT element
         return m("select", { config: Select2.config(attrs), style: "width:320px" }, [
 
-            attrs.data.map(function (item, index) {
-                var args = { value: index };
+            attrs.data.map(function (item) {
+                var args = { value: item };
                 //    Set selected option
                 if (item.id == selectedId) {
                     args.selected = "selected";
@@ -99,12 +116,12 @@ var Select2 = {
                             });
 
                             if (typeof ctrl.onchange == "function") {
-                                ctrl.onchange(el.select2("val"));
+                                ctrl.onchange({ id: ctrl.id, selected: el.select2("val") });
                             }
                             m.endComputation();
                         });
                 }
-                el.val(ctrl.value()).trigger("change");
+                el.val(ctrl.value).trigger("change");
             } else {
                 console.warn('ERROR: You need jquery and Select2 in the page');
             }

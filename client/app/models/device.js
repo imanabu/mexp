@@ -24,7 +24,7 @@ var uniqueId = (function () {
 // Device Model
 app.Device = function (data) {
 	this.name = m.prop(data.name);
-	this.legions = m.prop(data.legions || []);
+	this.lesions = m.prop(data.lesions || []);
 	this.diameter = m.prop(data.diameter || 0);
     this.length = m.prop(data.length || 0);
 	this.id = uniqueId();
@@ -33,7 +33,7 @@ app.Device = function (data) {
 app.NewDevice = function () {
 	return new app.Device({
 		name: "",
-		legions: [],
+		lesions: [],
 		diameter: 0,
 		length: 0
 	});

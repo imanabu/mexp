@@ -6,19 +6,25 @@
 var app = app || {};
 
 var myToDo = [
-    "New: Legions is now hooked up properly in each item. Try it. You can add remove items.",
-    "Net Yet! Deleting each device",
-    "Net Yet! ICD pulldown needs to be tied to each row independently",
-    "Net Yet! Associated Lesions add/remove functionality",
+    "New: lesions is now hooked up properly in each item. Try it. You can add remove items.",
+    "New: device pulldown should nor behave properly",
+    "Net Yet! device deletion and reordering",
     "Note this list itself is written in Mithril!"
 ];
+
+app.dump = function(item) {
+    return m("li",
+        item.id + ", " + item.name() + ", [" + item.lesions() + "], " + item.diameter() + ", " + item.length()
+    )
+;}
 
 app.view = function (ctrl) {
     return m("header#header", [
         m("h3", "List of Progress"),
         m("ul", [
-            myToDo.map(function(item) {
-                return m("li", item) })   
+            myToDo.map(function (item) {
+                return m("li", item)
+            })
         ]),
         m("h1", "Devices")
     ],
@@ -38,21 +44,26 @@ app.view = function (ctrl) {
                         m("td", [m("button", "x " + item.id)]),
                         m("td", [
                             m.component(Select2, {
-                                data: ctrl.approvedDevices, value: ctrl.selectedDev, onchange: function () { }
+                                id: item.id,
+                                data: ctrl.approvedDevices, value: item.name(), onchange: ctrl.deviceChanged.bind(ctrl)
                             })
                         ]),
                         m("td", [
                             m.component(Select2Multi, {
-                                id: item.id, data: ctrl.deviceIds(), value: item.legions, onchange: ctrl.lesionsChanged.bind(ctrl)
+                                id: item.id, data: ctrl.lesions(), value: item.lesions, onchange: ctrl.lesionsChanged.bind(ctrl)
                             })
                         ]),
-                        m("td", [ m("input", {class:"text"})]),
-                        m("td", [ m("input", {class:"text"})])
+                        m("td", [m("input", { class: "text" })]),
+                        m("td", [m("input", { class: "text" })])
                     ])
                 })
             ]),
             m("button#add", { onclick: ctrl.addNew.bind(ctrl) }, "+"),
-            m("p", "Total devices: ", ctrl.listCount())
+            m(".well", [
+            m("h2", "Data Dump"),
+            m("p", "Total devices: ", ctrl.listCount()),
+            m("ul", [ ctrl.list.map(app.dump)]
+            )]) // end ul
         ])
     ); // top
 }
