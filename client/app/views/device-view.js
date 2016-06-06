@@ -6,11 +6,11 @@
 var app = app || {};
 
 var myToDo = [
-    "New: You can add device and Associated Lesions pulldown will reflect the number of items",
-    "Noet Yet: Working on updates from Pulldowns, lesions are currently selected to 2 and 4 as you add devices, 2 and 4 will show up as selections. Please try!", 
+    "New: Legions is now hooked up properly in each item. Try it. You can add remove items.",
     "Net Yet! Deleting each device",
     "Net Yet! ICD pulldown needs to be tied to each row independently",
-    "Net Yet! Associated Lesions add/remove functionality"
+    "Net Yet! Associated Lesions add/remove functionality",
+    "Note this list itself is written in Mithril!"
 ];
 
 app.view = function (ctrl) {
@@ -43,7 +43,7 @@ app.view = function (ctrl) {
                         ]),
                         m("td", [
                             m.component(Select2Multi, {
-                                data: ctrl.deviceIds(), value: m.prop([2,4]), onchange: ctrl.lesionsChanged.bind(ctrl)
+                                id: item.id, data: ctrl.deviceIds(), value: item.legions, onchange: ctrl.lesionsChanged.bind(ctrl)
                             })
                         ]),
                         m("td", [ m("input", {class:"text"})]),
