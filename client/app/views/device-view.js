@@ -6,6 +6,8 @@
 var app = app || {};
 
 var myToDo = [
+    "Working also on delete renumbering of regions ... not yet working",
+    "The pull down for lesions is now fixed, but above fix must go in before you see it",
     "Most of the features should be complete. Please check every function."
 ];
 
@@ -57,7 +59,7 @@ app.view = function (ctrl) {
                         ]),
                         m("td", [
                             m.component(Select2Multi, {
-                                id: item.id(), data: ctrl.lesions(), value: item.lesions, onchange: ctrl.lesionsChanged.bind(ctrl)
+                                id: item.id(), data: ctrl.lesions, value: item.lesions, onchange: ctrl.lesionsChanged.bind(ctrl)
                             })
                         ]),
                         m("td", [m("input", { class: "text", onchange: m.withAttr("value", item.diameter), value: item.diameter() })]),
@@ -76,11 +78,14 @@ app.view = function (ctrl) {
         m("hr"),
         m("h2", "Lesions Add/Remove Testing"),
         m("p", "Example: To simulate a deletion of lesion 2, type in 1,3,4 and press Execute."),
-        m("input", { class: "text", onchange: m.withAttr("value", ctrl.lesionsField), value: ctrl.lesionsField()}),
-               m("button", {
-            onclick: ctrl.lesionUpdate.bind(ctrl, ctrl.lesionsField),
+        m("input", { id: "llist", class: "text", 
+            onchange: m.withAttr("value", ctrl.lesionsField), value: ctrl.lesionsField() }),
+        
+        m("button", {
+            onclick: ctrl.lesionUpdate.bind(ctrl),
             class: "button btn-warning"
         }, " Execute"),
+              
         m("span", m.trust("&nbsp;"),  m.trust("&nbsp;"), ctrl.lesionStatus()),
         m("hr"),
         m(".well", { class: "col-md-8" }, [

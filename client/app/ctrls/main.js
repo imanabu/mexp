@@ -40,33 +40,62 @@ app.controller = function () {
     ctrl.priorLesions = m.prop([1, 2, 3, 4, 5]);
     ctrl.lesions = m.prop([1, 2, 3, 4, 5]);
     ctrl.lesionStatus = m.prop("");
+    ctrl.lesionsField = m.prop("1,2,3,4,5");
+    // == Update Lesions ===
+    
     ctrl.lesionUpdate = function (x) {
+        
         var split = ctrl.lesionsField().split(",");
-        var l2 = [];
+        var newLesions = [];
+        
         split.forEach(function (x) {
-            l2.push(x);
+            newLesions.push(x);
         });
+        
         var fix = false;
+        
         ctrl.list.forEach(function (y) {
             var yl = y.lesions();
-            var isc = _.intersection(yl, l2);
+            var isc = _.intersection(yl, newLesions);
             
             if (isc.length != yl.length) {
-                var iex = _.difference(yl, l2);
+                var iex = _.difference(yl, newLesions);
                 alert("Lesion " + iex + " is assigned to device (" + y.id() + ") " +
-                y.name() + ". Please remove the device association first, " + 
-                "if you do wish to delete the lesion.");
+                y.name() + ". has been removed and numbers are rearranged.");
                 fix = true;
             }
         });
-
+        
         if (fix) {
-            ctrl.lesions(ctrl.priorLesions());
-            ctrl.lesionsField(ctrl.priorLesions().toString());
+            // make the map
+            var a = Array();
+            var i = 1;
+            
+            // for example a["2"] = 1;
+            newLesions.forEach(function(x2) {
+                a[x2] = i++;
+            });
+            
+           ctrl.list.forEach(function(x3) {
+               var les1 = new Array();
+                x3.lesions().forEach( function(x4) {
+                    if (a[x4]) {
+                        les1.push(a[x4]);
+                    }
+                });
+                x3.lesions(les1);
+            });
         }
-        else {
-            ctrl.priorLesions(ctrl.lesions());
-        }
+
+        ctrl.priorLesions(newLesions);
+        ctrl.lesions(newLesions);
+    }
+    
+    // == MAP: given [1,2,3,4] and if 3 is removed, it will be mapped
+    // from 1->1, 2->2, 4->3
+    
+    ctrl.remapLesions = function() {
+        
     }
 
     ctrl.unassignedList = m.prop([]);
@@ -88,7 +117,7 @@ app.controller = function () {
         return isc;
     }
 
-    ctrl.lesionsField = m.prop("1,2,3,4,5");
+    
 
     ctrl.deviceChanged = function (arg) {
         var id = arg.id;
@@ -203,7 +232,7 @@ var Select2Multi = {
         var selectedIds = attrs.value();
         //Create a Select2 progrssively enhanced SELECT element
         return m("select", { config: Select2Multi.config(attrs), style: "width:200px", multiple: "multiple" }, [
-            attrs.data.map(function (item, index) {
+            attrs.data().map(function (item, index) {
                 var args = { value: item, selected: "selected" };
                 //    Set selected option
                 if (_.contains(selectedIds, item)) {
@@ -236,7 +265,7 @@ var Select2Multi = {
                             m.startComputation();
                             //Set the value to the selected option
                             var selected = [];
-                            ctrl.data.map(function (d, index) {
+                            ctrl.data().map(function (d) {
                                 if (d == id) {
                                     selected.push(id);
                                 }
