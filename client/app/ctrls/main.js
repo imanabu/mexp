@@ -35,13 +35,49 @@ app.controller = function () {
 
         return m;
     }
-    
+
     // TODO: This comes from the actual lesions list. And if this changes we must reflect those
     ctrl.lesions = m.prop([1, 2, 3, 4, 5]);
     ctrl.lesionStatus = m.prop("Initialized");
-    ctrl.lesionUpdate = function(x) {
-        console.log(x);
+    ctrl.lesionUpdate = function (x) {
+        var split = ctrl.lesionsField().split(",");
+        var l2 = [];
+        split.forEach(function (x) {
+            l2.push(x);
+        });
+
+        ctrl.list.forEach(function (y) {
+            var yl = y.lesions();
+            var isc = _.intersection(yl, l2);
+            if (isc.length != yl.length) {
+                var iex = _.difference(yl, l2);
+                alert("Lesion " + iex + " will no longer be assigned to " + y.name());
+            }
+
+        });
+
     }
+
+    ctrl.unassignedList = m.prop([]);
+
+    ctrl.findUnassigned = function () {
+        var split = ctrl.lesionsField().split(",");
+        var l2 = [];
+        split.forEach(function (x) {
+            l2.push(x);
+        });
+        var assigned = [];
+        ctrl.list.forEach(function (y) {
+            var yleg = y.lesions();
+            assigned = _.union(assigned, yleg);
+        })
+
+        var isc = _.difference(l2, assigned);
+        ctrl.unassignedList(isc);
+        return isc;
+    }
+
+    ctrl.lesionsField = m.prop("1,2,3,4,5");
 
     ctrl.deviceChanged = function (arg) {
         var id = arg.id;
@@ -69,19 +105,19 @@ app.controller = function () {
             );
         }
     }
-    
-    ctrl.Delete = function(arg) {
+
+    ctrl.Delete = function (arg) {
         var id = arg();
         var newId = 0;
         var list2 = [];
 
-        ctrl.list.forEach(function(x) {
+        ctrl.list.forEach(function (x) {
             if (x.id() !== id) {
                 x.id(++newId);
                 list2.push(x)
             }
         });
-        
+
         ctrl.list = list2;
         console.log(list2);
     }

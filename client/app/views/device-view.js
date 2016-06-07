@@ -76,16 +76,21 @@ app.view = function (ctrl) {
         }, " Add Devices"
         ),
         m("p"),
+        m("h3", { style: "color:orange"}, "Unassigned Lesions: " + ctrl.findUnassigned()), 
         m("hr"),
-        m("h2", "Lesions Testing List"),
-        m("p", "Type in Lesion IDs separated by comma, it will renumber them once you make the change."),
-        m("input", { type: "text", onchange: {} }),
-        m("span", " " + ctrl.lesionStatus()),
+        m("h2", "Lesions Add/Remove Testing"),
+        m("p", "Type in Lesion IDs separated by comma"),
+        m("input", { class: "text", onchange: m.withAttr("value", ctrl.lesionsField), value: ctrl.lesionsField()}),
+               m("button", {
+            onclick: ctrl.lesionUpdate.bind(ctrl, ctrl.lesionsField),
+            class: "button btn-warning"
+        }, " Execute"),
+        m("span", m.trust("&nbsp;"),  m.trust("&nbsp;"), ctrl.lesionStatus()),
         m("hr"),
         m(".well", { class: "col-md-8" }, [
             m("h2", "Internal Data Dump"),
             m("p", "Total devices: ", ctrl.listCount()),
             m("ul", [ctrl.list.map(app.dump)]
             )]) // end ul
-    ); // top
+    ); // topinter
 }
