@@ -6,10 +6,7 @@
 var app = app || {};
 
 var myToDo = [
-    "New: Check the new Deletion Style",
-    "New: Device list updated, searchable by the ID",
-    "Not Yet: Lesions deletion handling and warking",
-    "Note this list itself is written in Mithril!"
+    "Most of the features should be complete. Please check every function."
 ];
 
 app.dump = function (item) {
@@ -69,17 +66,16 @@ app.view = function (ctrl) {
                 })
             ])
         ]),
-        m("span", {
+        m("button", {
             onclick: ctrl.addNew.bind(ctrl),
-            class: "glyphicon glyphicon-plus", "aria-hidden": "true",
-            style: "color:gray"
-        }, " Add Devices"
+            class:"button btn-warning",
+        }, "+ Add Device"
         ),
         m("p"),
         m("h3", { style: "color:orange"}, "Unassigned Lesions: " + ctrl.findUnassigned()), 
         m("hr"),
         m("h2", "Lesions Add/Remove Testing"),
-        m("p", "Type in Lesion IDs separated by comma"),
+        m("p", "Example: To simulate a deletion of lesion 2, type in 1,3,4 and press Execute."),
         m("input", { class: "text", onchange: m.withAttr("value", ctrl.lesionsField), value: ctrl.lesionsField()}),
                m("button", {
             onclick: ctrl.lesionUpdate.bind(ctrl, ctrl.lesionsField),
