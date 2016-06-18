@@ -2,6 +2,7 @@
 /// This requires Typescript 1.8 or later, use "npm install typescript" and be sure that 
 /// visual studio Typescript SDK install versoin of tsc does not run (which is ancient 1.0.x)
 "use strict";
+var MedHeadings = ["Category", "Medications", "Administered"];
 var Administered = ["No", "Yes", "Contraindicated", "Blinded"];
 var Meds = [
     { sel: "", cat: "Anticoagulants", meds: ["Fondparinux", "Low Molecular Weight Heparin (any)", "Unfractionated Heparin (any)"] },
@@ -9,7 +10,6 @@ var Meds = [
     { sel: "", cat: "Glycoprotein IIb/IIIa Inhibitors", meds: ["GP IIb/IIIa (any)"] },
     { sel: "", cat: "Thienopyridines", meds: ["Clopidogrel", "Ticlopidine", "Prasugrel"] }
 ];
-var MedHeadings = ["Category", "Medications", "Administered"];
 var MedicationCompo = (function () {
     function MedicationCompo(headings, meds) {
         this.headings = headings;
@@ -36,6 +36,7 @@ var MedicationCompo = (function () {
     MedicationCompo.prototype.tbody = function () {
         // let that = this;      
         var tr = new Array();
+        var menu = new Select2Data("180px", Administered, "0");
         this.meds.forEach(function (item) {
             var size = item.meds.length;
             for (var i = 0; i < size; i++) {
@@ -43,7 +44,6 @@ var MedicationCompo = (function () {
                 // Row spanning logic to make the merged category cell
                 if (size > 0) {
                     if (i === 0) {
-                        console.log("item category " + item.cat + " rows " + size.toString());
                         td.push(m("td", { "rowspan": size.toString() }, item.cat));
                     }
                 }
@@ -51,7 +51,7 @@ var MedicationCompo = (function () {
                     td.push(m("td", item.cat));
                 }
                 td.push(m("td", item.meds[i]));
-                td.push(m("td", "pulldown"));
+                td.push(m("td", m.component(Select20, menu)));
                 tr.push(m("tr", td));
             }
         });
