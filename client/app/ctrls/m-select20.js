@@ -1,12 +1,24 @@
 /// <reference path='../../_all.ts' />
+var SelectedResult = (function () {
+    function SelectedResult(selected, owner) {
+        this.selected = selected;
+        this.owner = owner;
+    }
+    return SelectedResult;
+}());
 var Select2Data = (function () {
-    function Select2Data(width, data, selectedId) {
+    function Select2Data(width, data, selectedId, owner) {
         this.width = width;
         this.data = data;
         this.selectedId = selectedId;
+        this.owner = owner;
     }
+    Select2Data.prototype.onchange = function (arg) {
+        console.log("selected: " + arg.selected + " owner: " + arg.owner);
+    };
     return Select2Data;
 }());
+/* tslint:disable no-var-requires  */
 var Select20 = {
     //    Returns a select box
     // Usage: see http://mithril.js.org/integration.html but in general
@@ -14,8 +26,11 @@ var Select20 = {
     // Be sure to scroll down to the bottom of the page to see the acual coding example including the use if id and name
     // This is modifed so that the data source uses the mithril getter and setter factories and not
     // plain Json structure.
+    controller: function () {
+        var ctrl = this;
+    },
     view: function (ctrl, attrs) {
-        //Create a Select2 progrssively enhanced SELECT element
+        // Create a Select2 progrssively enhanced SELECT element
         return m("select", { config: Select20.config(attrs), style: "font-size: 10px; width:" + (attrs.width || "180px") }, [
             attrs.data.map(function (item, index) {
                 var args = { value: item, selected: "" };
@@ -38,26 +53,27 @@ var Select20 = {
     config: function (ctrl) {
         return function (element, isInitialized) {
             if (typeof jQuery !== "undefined" && typeof jQuery.fn.select2 !== "undefined") {
-                var el = $(element);
+                var el_1 = $(element);
                 if (!isInitialized) {
-                    el.select2()
+                    el_1.select2()
                         .on("change", function () {
-                        var id = el.select2("val");
-                        //Set the value to the selected option
+                        var id = el_1.select2("val");
+                        // Set the value to the selected option
                         ctrl.data.map(function (d, index) {
                             if (index === id) {
                                 ctrl.value(id);
+                                ctrl.selectedId = index.toString();
                             }
                         });
                         if (typeof ctrl.onchange == "function") {
-                            ctrl.onchange({ id: ctrl.id, selected: el.select2("val") });
+                            ctrl.onchange(new SelectedResult(el_1.select2("val"), ctrl.owner));
                         }
                     });
                 }
-                el.val(ctrl.value).trigger("change");
+                el_1.val(ctrl.value).trigger("change");
             }
             else {
-                console.warn("ERROR: You need jquery and Select2 in the page");
+                console.warn("ERROR: Missing jquery and Select2 JS");
             }
         };
     }
@@ -67,7 +83,7 @@ var Select20Multi = {
     //  selection.
     view: function (ctrl, attrs) {
         var selectedIds = attrs.value();
-        //Create a Select2 progrssively enhanced SELECT element
+        // Create a Select2 progrssively enhanced SELECT element
         return m("select", { config: Select20Multi.config(attrs), style: "font-size: 10px; width:60x", multiple: "multiple" }, [
             attrs.data().map(function (item) {
                 var args = { value: item, selected: "selected" };
@@ -93,13 +109,13 @@ var Select20Multi = {
     config: function (ctrl) {
         return function (element, isInitialized) {
             if (typeof jQuery !== "undefined" && typeof jQuery.fn.select2 !== "undefined") {
-                var el = $(element);
+                var el_2 = $(element);
                 if (!isInitialized) {
-                    el.select2()
+                    el_2.select2()
                         .on("change", function () {
-                        var id = el.select2("val");
-                        //m.startComputation();
-                        //Set the value to the selected option
+                        var id = el_2.select2("val");
+                        // m.startComputation();
+                        // Set the value to the selected option
                         var selected = [];
                         ctrl.data().map(function (d) {
                             if (d === id) {
@@ -108,13 +124,13 @@ var Select20Multi = {
                         });
                         ctrl.value(selected);
                         if (typeof ctrl.onchange == "function") {
-                            var arg = { id: ctrl.id, selected: el.select2("val") };
+                            var arg = { id: ctrl.id, selected: el_2.select2("val") };
                             ctrl.onchange(arg);
                         }
                         // m.endComputation();
                     });
                 }
-                el.val(ctrl.value()).trigger("change");
+                el_2.val(ctrl.value()).trigger("change");
             }
             else {
                 console.warn("ERROR: You need jquery and Select2 in the page");

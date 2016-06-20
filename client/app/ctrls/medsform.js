@@ -36,7 +36,6 @@ var MedicationCompo = (function () {
     MedicationCompo.prototype.tbody = function () {
         // let that = this;      
         var tr = new Array();
-        var menu = new Select2Data("180px", Administered, "0");
         this.meds.forEach(function (item) {
             var size = item.meds.length;
             for (var i = 0; i < size; i++) {
@@ -50,6 +49,10 @@ var MedicationCompo = (function () {
                 else {
                     td.push(m("td", item.cat));
                 }
+                var owner = new Array();
+                owner.push(item.cat);
+                owner.push(item.meds[i]);
+                var menu = new Select2Data("180px", Administered, "0", owner);
                 td.push(m("td", item.meds[i]));
                 td.push(m("td", m.component(Select20, menu)));
                 tr.push(m("tr", td));
