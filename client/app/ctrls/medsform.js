@@ -4,10 +4,18 @@
 "use strict";
 var MedHeadings = ["Category", "Medications", "Administered"];
 var Administered = ["No", "Yes", "Contraindicated", "Blinded"];
-var Meds = [
+var ProcedureMeds = [
     { sel: "", cat: "Anticoagulants", meds: ["Fondparinux", "Low Molecular Weight Heparin (any)", "Unfractionated Heparin (any)"] },
     { sel: "", cat: "Aspirin", meds: ["Aspirin (any)"] },
     { sel: "", cat: "Glycoprotein IIb/IIIa Inhibitors", meds: ["GP IIb/IIIa (any)"] },
+    { sel: "", cat: "Thienopyridines", meds: ["Clopidogrel", "Ticlopidine", "Prasugrel"] }
+];
+var DischargeMeds = [
+    { sel: "", cat: "ACE Inhibitors", meds: ["ACE Inhibitor (any)"] },
+    { sel: "", cat: "ARBs", meds: ["ARB (any)"] },
+    { sel: "", cat: "Aspirin", meds: ["Aspirin (any)"] },
+    { sel: "", cat: "Beta Blcokers", meds: ["Beta Blocker (any)"] },
+    { sel: "", cat: "Lipid Lowering Agents", meds: ["Statin (any)", "Non-Statin (any)"] },
     { sel: "", cat: "Thienopyridines", meds: ["Clopidogrel", "Ticlopidine", "Prasugrel"] }
 ];
 var cb = function onSelectChange(arg) {
@@ -67,5 +75,6 @@ var MedicationCompo = (function () {
     };
     return MedicationCompo;
 }());
-m.mount($("#devapp")[0], new MedicationCompo(MedHeadings, Meds, cb));
+m.mount($("#devapp")[0], new MedicationCompo(MedHeadings, ProcedureMeds, cb));
+m.mount($("#discharge")[0], new MedicationCompo(MedHeadings, DischargeMeds, cb));
 //# sourceMappingURL=medsform.js.map
