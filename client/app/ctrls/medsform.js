@@ -10,10 +10,15 @@ var Meds = [
     { sel: "", cat: "Glycoprotein IIb/IIIa Inhibitors", meds: ["GP IIb/IIIa (any)"] },
     { sel: "", cat: "Thienopyridines", meds: ["Clopidogrel", "Ticlopidine", "Prasugrel"] }
 ];
+var cb = function onSelectChange(arg) {
+    console.log(arg);
+    return;
+};
 var MedicationCompo = (function () {
-    function MedicationCompo(headings, meds) {
+    function MedicationCompo(headings, meds, changeCallBack) {
         this.headings = headings;
         this.meds = meds;
+        this.changeCallBack = changeCallBack;
     }
     MedicationCompo.prototype.controller = function () {
         return null;
@@ -34,7 +39,7 @@ var MedicationCompo = (function () {
         ];
     };
     MedicationCompo.prototype.tbody = function () {
-        // let that = this;      
+        var that = this;
         var tr = new Array();
         this.meds.forEach(function (item) {
             var size = item.meds.length;
@@ -52,7 +57,7 @@ var MedicationCompo = (function () {
                 var owner = new Array();
                 owner.push(item.cat);
                 owner.push(item.meds[i]);
-                var menu = new Select2Data("180px", Administered, "0", owner);
+                var menu = new Select2Data("180px", Administered, "0", owner, that.changeCallBack);
                 td.push(m("td", item.meds[i]));
                 td.push(m("td", m.component(Select20, menu)));
                 tr.push(m("tr", td));
@@ -62,5 +67,5 @@ var MedicationCompo = (function () {
     };
     return MedicationCompo;
 }());
-m.mount($("#devapp")[0], new MedicationCompo(MedHeadings, Meds));
+m.mount($("#devapp")[0], new MedicationCompo(MedHeadings, Meds, cb));
 //# sourceMappingURL=medsform.js.map

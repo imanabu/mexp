@@ -19,16 +19,19 @@ let Meds: IMedItem[] = [
     { sel: "", cat: "Thienopyridines", meds: ["Clopidogrel", "Ticlopidine", "Prasugrel"] }
 ];
 
-class MedicationCompo implements Mithril.Component<any> {
+let cb = function onSelectChange(arg: SelectedResult): void {
+    console.log(arg);
+    return;
+};
 
-    private meds: IMedItem[];
-    private headings: string[];
+class MedicationCompo implements Mithril.Component<any> {
     private selections: Mithril.Property<string[]>;
 
-    public constructor(headings: string[], meds: IMedItem[]) {
-        this.headings = headings;
-        this.meds = meds;
-    }
+    public constructor(
+        private headings: string[],
+        private meds: IMedItem[],
+        public changeCallBack: (arg: SelectedResult) => void ) {
+        }
 
     public controller(): Mithril.Controller {
         return null;
@@ -54,7 +57,7 @@ class MedicationCompo implements Mithril.Component<any> {
     }
 
     private tbody(): Mithril.VirtualElement[] {
-        // let that = this;      
+        let that = this;
         let tr = new Array();
         this.meds.forEach(function (item) {
             let size = item.meds.length;
@@ -72,7 +75,7 @@ class MedicationCompo implements Mithril.Component<any> {
                 let owner = new Array<string>();
                 owner.push(item.cat);
                 owner.push(item.meds[i]);
-                let menu = new Select2Data("180px", Administered, "0", owner);
+                let menu = new Select2Data("180px", Administered, "0", owner, that.changeCallBack);
                 td.push(m("td", item.meds[i]));
                 td.push(m("td", m.component(Select20, menu)));
                 tr.push(m("tr", td));
@@ -82,7 +85,7 @@ class MedicationCompo implements Mithril.Component<any> {
     }
 }
 
-m.mount($("#devapp")[0], new MedicationCompo(MedHeadings, Meds));
+m.mount($("#devapp")[0], new MedicationCompo(MedHeadings, Meds, cb));
 
 
 

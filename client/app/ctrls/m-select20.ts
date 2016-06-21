@@ -20,12 +20,9 @@ class Select2Data implements ISelect2Data {
         public width: string,
         public data: string[],
         public selectedId: string,
-        public owner: string[]
+        public owner: string[],
+        public onchange: (arg: SelectedResult) => void
     ) { }
-
-    public onchange(arg: SelectedResult): void {
-        console.log("selected: " + arg.selected + " owner: " + arg.owner);
-    }
 }
 
 /* tslint:disable no-var-requires  */

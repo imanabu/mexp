@@ -7,15 +7,13 @@ var SelectedResult = (function () {
     return SelectedResult;
 }());
 var Select2Data = (function () {
-    function Select2Data(width, data, selectedId, owner) {
+    function Select2Data(width, data, selectedId, owner, onchange) {
         this.width = width;
         this.data = data;
         this.selectedId = selectedId;
         this.owner = owner;
+        this.onchange = onchange;
     }
-    Select2Data.prototype.onchange = function (arg) {
-        console.log("selected: " + arg.selected + " owner: " + arg.owner);
-    };
     return Select2Data;
 }());
 /* tslint:disable no-var-requires  */
