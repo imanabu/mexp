@@ -28,10 +28,19 @@ let DischargeMeds: IMedItem[] = [
     { sel: "", cat: "Thienopyridines", meds: ["Clopidogrel", "Ticlopidine", "Prasugrel"] }
 ];
 
-let cb = function onSelectChange(arg: SelectedResult): void {
+let cb = function onSelectChange(arg: Array<string>): void {
     console.log(arg);
     return;
 };
+
+ let menuConfig = new ConfigArg(
+            false,
+            Administered,
+            cb,
+            m.prop(new Array<string>()),
+            "width:100%"
+    );
+
 
 class MedicationCompo implements Mithril.Component<any> {
     private selections: Mithril.Property<string[]>;
@@ -39,7 +48,7 @@ class MedicationCompo implements Mithril.Component<any> {
     public constructor(
         private headings: string[],
         private meds: IMedItem[],
-        public changeCallBack: (arg: SelectedResult) => void) {
+        public changeCallBack: (arg: Array<string>) => void) {
     }
 
     public controller(): Mithril.Controller {
@@ -84,9 +93,8 @@ class MedicationCompo implements Mithril.Component<any> {
                 let owner = new Array<string>();
                 owner.push(item.cat);
                 owner.push(item.meds[i]);
-                let menu = new Select2Data("180px", Administered, "0", owner, that.changeCallBack);
                 td.push(m("td", item.meds[i]));
-                td.push(m("td", m.component(Select20, menu)));
+                td.push(m("td", m.component(new Mselect2(), menuConfig)));
                 tr.push(m("tr", td));
             }
         });

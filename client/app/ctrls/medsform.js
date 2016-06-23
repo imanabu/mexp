@@ -22,6 +22,7 @@ var cb = function onSelectChange(arg) {
     console.log(arg);
     return;
 };
+var menuConfig = new ConfigArg(false, Administered, cb, m.prop(new Array()), "width:100%");
 var MedicationCompo = (function () {
     function MedicationCompo(headings, meds, changeCallBack) {
         this.headings = headings;
@@ -65,9 +66,8 @@ var MedicationCompo = (function () {
                 var owner = new Array();
                 owner.push(item.cat);
                 owner.push(item.meds[i]);
-                var menu = new Select2Data("180px", Administered, "0", owner, that.changeCallBack);
                 td.push(m("td", item.meds[i]));
-                td.push(m("td", m.component(Select20, menu)));
+                td.push(m("td", m.component(new Mselect2(), menuConfig)));
                 tr.push(m("tr", td));
             }
         });
