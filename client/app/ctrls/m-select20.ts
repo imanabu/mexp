@@ -87,23 +87,28 @@ var Select20 = {
     }
 }; // end Select2
 
-interface ISelect2MultiData {
-    value: Mithril.Property<string[]>;
-    data: Mithril.Property<string[]>;
-    width: string;
+interface IConfigArg {
+    optionsList: Array<string>;
+    selectedValues: Mithril.Property<Array<string>>;
+    onChange(selectedValues: Array<string>): void;
 }
 
-var Select20Multi = {
+class Select20Multi implements Mithril.Component<Mithril.Controller> {
+
+    controller() : Mithril.Controller {
+        return null;
+    }
     //  Returns a multi-select select2 box
     //  selection.
-    view: function (ctrl, attrs: ISelect2MultiData) {
-        let selectedIds = attrs.value();
-        // Create a Select2 progrssively enhanced SELECT element
-        return m("select", { config: Select20Multi.config(attrs), style: "font-size: 10px; width:60x", multiple: "multiple" }, [
-            attrs.data().map(function (item) {
-                let args = { value: item, selected: "selected" };
+
+    view(ctrl, attrs: IConfigArg): Mithril.VirtualElement {
+        
+        //Create a Select2 progrssively enhanced SELECT element
+        return m("select", { config: this.config(attrs), style: "font-size: 10px; width:60x", multiple: "multiple" }, [
+            attrs.optionsList.map((item) => {
+                var args = { value: item, selected: "selected" };
                 //    Set selected option
-                if (_.contains(selectedIds, item)) {
+                if (_.contains(attrs.selectedValues(), item)) {
                     args.selected = "selected";
                 }
                 else {
@@ -112,45 +117,42 @@ var Select20Multi = {
                 return m("option", args, item);
             })
         ]);
-    },
+    }
 
-    /**
-    Select2 config factory. The params in this doc refer to properties of the `ctrl` argument
-    @param {Object} data - the data with which to populate the <option> list
-    @param {prop} value - the prop of the items in `data` that we want to select, type number[]
-    @param {function(Object id)} onchange - the event handler to call when the selection changes.
-        `id` is the the same as `value`
-    */
-    //    Note: The config is never run server side.
-    config: function (ctrl): Mithril.ElementConfig {
-        return function (element, isInitialized) {
+    config(configArg : IConfigArg): Mithril.ElementConfig {
+        var that = this;
+        return (element, isInitialized) => {
+            debugger;
             if (typeof jQuery !== "undefined" && typeof jQuery.fn.select2 !== "undefined") {
-                let el = $(element);
+                var el = $(element);
                 if (!isInitialized) {
                     el.select2()
-                        .on("change", function () {
-                            let id = el.select2("val");
-                            // m.startComputation();
-                            // Set the value to the selected option
-                            let selected = [];
-                            ctrl.data().map(function (d) {
+                        .on("change", () => {
+                            var id = el.select2("val");
+                            //m.startComputation();
+                            //Set the value to the selected option
+                            var selected = [];
+                            configArg.optionsList.map((d) => {
                                 if (d === id) {
                                     selected.push(id);
                                 }
                             });
-                            ctrl.value(selected);
-                            if (typeof ctrl.onchange == "function") {
-                                let arg = { id: ctrl.id, selected: el.select2("val") };
-                                ctrl.onchange(arg);
+                            configArg.selectedValues(selected);
+                            if (typeof configArg.onChange == "function") {
+                                 configArg.onChange(el.select2("val"));
                             }
                             // m.endComputation();
                         });
                 }
-                el.val(ctrl.value()).trigger("change");
+                debugger;
+                // el.val(configArg.selectedValues()).trigger("change");
             } else {
                 console.warn("ERROR: You need jquery and Select2 in the page");
             }
         };
     }
 }; // end Select2
+
+
+
 

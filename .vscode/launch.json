@@ -13,8 +13,8 @@
             "name": "Device.html EDGE",
             "type": "edge",
             "request": "launch",
-            "url": "http://localhost:3000/device.html",
-            "sourceMaps": false,
+            "url": "http://localhost:3000/multisel.html",
+            "sourceMaps": true,
             "webRoot": "${workspaceRoot}/client"
         },
         {

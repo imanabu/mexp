@@ -76,17 +76,21 @@ var Select20 = {
         };
     }
 }; // end Select2
-var Select20Multi = {
+var Select20Multi = (function () {
+    function Select20Multi() {
+    }
+    Select20Multi.prototype.controller = function () {
+        return null;
+    };
     //  Returns a multi-select select2 box
     //  selection.
-    view: function (ctrl, attrs) {
-        var selectedIds = attrs.value();
-        // Create a Select2 progrssively enhanced SELECT element
-        return m("select", { config: Select20Multi.config(attrs), style: "font-size: 10px; width:60x", multiple: "multiple" }, [
-            attrs.data().map(function (item) {
+    Select20Multi.prototype.view = function (ctrl, attrs) {
+        //Create a Select2 progrssively enhanced SELECT element
+        return m("select", { config: this.config(attrs), style: "font-size: 10px; width:60x", multiple: "multiple" }, [
+            attrs.optionsList.map(function (item) {
                 var args = { value: item, selected: "selected" };
                 //    Set selected option
-                if (_.contains(selectedIds, item)) {
+                if (_.contains(attrs.selectedValues(), item)) {
                     args.selected = "selected";
                 }
                 else {
@@ -95,45 +99,39 @@ var Select20Multi = {
                 return m("option", args, item);
             })
         ]);
-    },
-    /**
-    Select2 config factory. The params in this doc refer to properties of the `ctrl` argument
-    @param {Object} data - the data with which to populate the <option> list
-    @param {prop} value - the prop of the items in `data` that we want to select, type number[]
-    @param {function(Object id)} onchange - the event handler to call when the selection changes.
-        `id` is the the same as `value`
-    */
-    //    Note: The config is never run server side.
-    config: function (ctrl) {
+    };
+    Select20Multi.prototype.config = function (configArg) {
+        var that = this;
         return function (element, isInitialized) {
             if (typeof jQuery !== "undefined" && typeof jQuery.fn.select2 !== "undefined") {
-                var el_2 = $(element);
+                var el = $(element);
                 if (!isInitialized) {
-                    el_2.select2()
+                    el.select2()
                         .on("change", function () {
-                        var id = el_2.select2("val");
-                        // m.startComputation();
-                        // Set the value to the selected option
+                        var id = el.select2("val");
+                        //m.startComputation();
+                        //Set the value to the selected option
                         var selected = [];
-                        ctrl.data().map(function (d) {
+                        configArg.optionsList.map(function (d) {
                             if (d === id) {
                                 selected.push(id);
                             }
                         });
-                        ctrl.value(selected);
-                        if (typeof ctrl.onchange == "function") {
-                            var arg = { id: ctrl.id, selected: el_2.select2("val") };
-                            ctrl.onchange(arg);
+                        // configArg.selectedValues(selected);
+                        if (typeof configArg.onChange == "function") {
+                            configArg.onChange(el.select2("val"));
                         }
                         // m.endComputation();
                     });
                 }
-                el_2.val(ctrl.value()).trigger("change");
+                el.val(configArg.selectedValues()).trigger("change");
             }
             else {
                 console.warn("ERROR: You need jquery and Select2 in the page");
             }
         };
-    }
-}; // end Select2
+    };
+    return Select20Multi;
+}());
+; // end Select2
 //# sourceMappingURL=m-select20.js.map
